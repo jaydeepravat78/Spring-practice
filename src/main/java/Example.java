@@ -3,7 +3,9 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * 
- * <p> The following class create bean using annotation </p>
+ * <p>
+ * The following class create bean using annotation
+ * </p>
  *
  */
 
