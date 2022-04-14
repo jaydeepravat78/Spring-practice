@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
  */
 
 @Configuration
-public class Example {
+public class HybridExample {
 	@Bean
 	public Employee emp() {
 		return new Employee(2);

@@ -31,12 +31,18 @@
 	</bean>
 	<bean id="employee2" class="Employee" p:name="Raj"
 		p:email="raj@gmail.com.com" p:number="1234567890" c:id="3"
-		p:address-ref="address2" /> <!--  using p and c namespace -->
+		p:address-ref="address2" scope="prototype"/> <!--  using p and c namespace -->
 	<bean id="car" class="Car" p:speed="120"></bean>
 	<bean id="bike" class="Bike" p:speed="80" init-method="init" destroy-method="destroy"></bean>
 
 	<bean id="parent" class="Parent" p:X="20" p:Y="30"></bean>
-	<bean id="child" class="Child" parent="parent" p:X="50" p:Z="40"></bean>
-	<!-- inheritance of bean -->
+	<bean id="child" class="Child" parent="parent" p:X="50" p:Z="40"></bean> <!-- inheritance -->
+	<alias name="child" alias="values"/>
+	
+	<!-- autowire default no, byName(search the name of attribute (student), 
+							  byType search the type of bean
+							  by constructor  -->
+	<bean id="teacher" class="Teacher" p:name="Xyz" p:subject="Maths" />
+	<bean id="student" class="Student" p:rollNo="5" p:name="Abc" p:marks="90.5" />
 	<context:annotation-config />
 </beans>  

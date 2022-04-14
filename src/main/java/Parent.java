@@ -1,8 +1,9 @@
+import java.util.Stack;
 
 public class Parent {
 	private int x;
 	private int y;
-	
+
 	public int getX() {
 		return x;
 	}
@@ -18,5 +19,4 @@ public class Parent {
 	public void setY(int y) {
 		this.y = y;
 	}
-
 }
