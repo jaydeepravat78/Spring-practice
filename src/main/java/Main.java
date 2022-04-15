@@ -24,14 +24,16 @@ public class Main {
 		Employee emp = (Employee) context.getBean("employee"); // getting employee bean from xml
 		log.info(emp.getId() + " " + emp.getName() + " " + emp.getEmail() + " " + emp.getNumber());
 		List<Address> addresses = emp.getAddress();
+		log.info(addresses.getClass());
 		for (Address address : addresses) {
 			log.info("Address: " + address.getStreet() + " " + address.getCity() + " " + address.getState());
 		}
 		Map<String, Double> jobs = emp.getJob();
+		log.info(emp.getJob().getClass());
 		for (Map.Entry<String, Double> job : jobs.entrySet()) {
 			log.info("JOB: " + job.getKey() + "  Salary: " + job.getValue());
 		}
-		
+
 		Vehicle car = context.getBean("car", Vehicle.class); // getting interface object
 		Vehicle bike = context.getBean("bike", Vehicle.class); // getting interface object
 		log.info("Car speed: " + car.speed());
@@ -41,13 +43,23 @@ public class Main {
 		log.info(emp3.getId() + " " + emp3.getName() + " " + emp3.getEmail() + " " + emp3.getNumber());
 		List<Address> addresses2 = emp3.getAddress();
 		for (Address address : addresses2) {
-			log.info("Address: " + address.getStreet() + " " + address.getCity() + " " + address.getState());
+			log.info(address);
 		}
 		Employee empPrototype = context.getBean("employee2", Employee.class);
 		log.info(emp3 + " " + empPrototype); // new object creating while calling bean
 
 		Teacher teacher = context.getBean("teacher", Teacher.class);
 		log.info(teacher);
+
+		Address addressProperty = context.getBean("address4", Address.class);
+		log.info(addressProperty);
+
+		Aware aware1 = context.getBean("aware1", Aware.class);
+		Aware aware2 = context.getBean("aware2", Aware.class);
+		log.info(aware1.getName() + " " + aware2.getName());
+
+		Address add = context.getBean("custombf", Address.class);
+		log.info(add);
 		// Bean initialization and referencing using annotation
 		context2 = new AnnotationConfigApplicationContext(HybridExample.class); // annotation based config
 		Employee emp2 = context2.getBean(Employee.class); // getting bean using annotation
@@ -55,9 +67,14 @@ public class Main {
 
 		Child child = context.getBean("values", Child.class); // inheritance and alias
 		log.info(child);
+
 		context3 = new AnnotationConfigApplicationContext(AnnotationExample.class);
-		AnnotationExample ann = context3.getBean("annotationExample", AnnotationExample.class);
+		AnnotationExample ann = context3.getBean(AnnotationExample.class);
 		log.info(ann);
+
+		AutowireExample auto = context.getBean("auto", AutowireExample.class);
+		auto.display();
+
 		context.close();
 	}
 }

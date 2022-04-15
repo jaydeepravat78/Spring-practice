@@ -4,45 +4,79 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
    http://www.springframework.org/schema/context
-   http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+   http://www.springframework.org/schema/context/spring-context-3.0.xsd
+   http://www.springframework.org/schema/util
+   http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+   
+   <!-- stand alone component -->
+   <util:list list-class="java.util.ArrayList" id="addresses">
+   		<ref bean="address1"/>
+   		<ref bean="address2"/>
+   </util:list>
+   
+   <util:map map-class="java.util.HashMap" id="jobs">
+   	<entry key="Project Lead" value="15000.50"></entry>
+   	<entry key="Software Developer" value="7000.25"></entry>
+   </util:map>
 	<bean id="address1" class="Address" p:street="Baker Street"
-		p:city="London" p:state="UK"></bean>
+		p:city="London" p:state="UK" />
 	<bean id="address2" class="Address" p:street="Stark Tower"
-		p:city="New Youk" p:state="USA"></bean>
+		p:city="New Youk" p:state="USA" />
 	<bean id="employee" class="Employee">
 		<constructor-arg name="id" value="1"></constructor-arg> <!-- constructor injection -->
-		<constructor-arg name="address">
-			<list>
-				<ref bean="address1" /> <!-- bean reference -->
-			</list>
+		<constructor-arg name="address" >
+			<ref bean="addresses" /> <!-- bean reference -->
 		</constructor-arg> <!-- constructor with collection -->
 		<property name="name" value="Jay"></property>
 		<property name="email" value="jay@gmail.com"></property>
 		<property name="number" value="989898989"></property> <!-- setter injection -->
 		<property name="job">
-			<map>
-				<entry key="Project Lead" value="10000.50"></entry>
-				<entry key="Developer" value="5000.23"></entry>
-			</map> <!-- setter with collection -->
+			<ref bean="jobs"/>
 		</property>
+		
 	</bean>
 	<bean id="employee2" class="Employee" p:name="Raj"
 		p:email="raj@gmail.com.com" p:number="1234567890" c:id="3"
-		p:address-ref="address2" scope="prototype"/> <!--  using p and c namespace -->
+		p:address-ref="address2" scope="prototype" /> <!-- using p and c namespace -->
+
 	<bean id="car" class="Car" p:speed="120"></bean>
-	<bean id="bike" class="Bike" p:speed="80" init-method="init" destroy-method="destroy"></bean>
+	<bean id="bike" class="Bike" p:speed="80" init-method="init"
+		destroy-method="destroy"></bean>
 
 	<bean id="parent" class="Parent" p:X="20" p:Y="30"></bean>
 	<bean id="child" class="Child" parent="parent" p:X="50" p:Z="40"></bean> <!-- inheritance -->
-	<alias name="child" alias="values"/>
-	
+	<alias name="child" alias="values" />
+
 	<!-- autowire default no, byName(search the name of attribute (student), 
-							  byType search the type of bean
-							  by constructor  -->
-	<bean id="teacher" class="Teacher" p:name="Xyz" p:subject="Maths" />
-	<bean id="student" class="Student" p:rollNo="5" p:name="Abc" p:marks="90.5" />
+		byType search the type of bean by constructor -->
+	<bean id="teacher" class="Teacher" p:name="Xyz" p:subject="Maths"
+		autowire="constructor" />
+	<bean id="student" class="Student" p:rollNo="5" p:name="Abc"
+		p:marks="90.5" />
+	<bean id="address" class="Address" p:street="Baker Street"
+		p:city="London" p:state="UK" />
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>config.properties</value>
+		</property>
+	</bean>
+	<bean id="address4" class="Address">
+		<property name="street" value="${street}"/>
+		<property name="city" value="${city}"/>
+		<property name="state" value="${state}"/>
+	</bean>
+	
+	<bean id="aware1" class="Aware"></bean>
+	<bean id="aware2" class="Aware"></bean>
+	<bean id="custombf" class="CustomBeanFactory"></bean>
+	<bean class="DemoPostProcess" />
+	
+	<bean id="auto" class="AutowireExample" autowire="byName"/>
+	<bean name="autoClass" class="AutoClass" />
+	
 	<context:annotation-config />
 </beans>  
